@@ -27,3 +27,14 @@ for line in lines:
     ans += overlap
 
 print("part2: ", ans)
+
+
+ans = 0 
+for line in lines:
+    first, second = line
+    left = max(first[0], second[0])
+    right = min(first[1], second[1])
+
+    ans += 1 if left <= right else 0
+
+print("part2 ", ans)

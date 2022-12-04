@@ -19,22 +19,20 @@ for line in lines:
 
 print("part1: ", ans)
 
-
-ans = 0 
-for line in lines:
-    first, second = line
-    overlap = len(set(range(first[0], first[1]+1)) & set(set(range(second[0], second[1]+1)))) > 0
-    ans += overlap
-
-print("part2: ", ans)
-
-
 ans = 0 
 for line in lines:
     first, second = line
     left = max(first[0], second[0])
     right = min(first[1], second[1])
-
     ans += 1 if left <= right else 0
 
 print("part2 ", ans)
+
+#would be too slow with big numbers
+#ans = 0 
+# for line in lines:
+#     first, second = line
+#     overlap = len(set(range(first[0], first[1]+1)) & set(set(range(second[0], second[1]+1)))) > 0
+#     ans += overlap
+
+# print("part2: ", ans)

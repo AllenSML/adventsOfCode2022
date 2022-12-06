@@ -31,6 +31,5 @@ def exec(max_len):
                 return id + 1
 
 
-
 print("part1: ", exec(4))
 print("part2: ", exec(14))

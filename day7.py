@@ -25,12 +25,10 @@ for l in lines:
         if cmd == "cd":
             if val == "/":
                 cur_dir = ["."]
-
             elif val == "..":                
                 cur_dir.pop()
             else:
                 cur_dir.append(val)
-        
     else:   
         p1, p2 = l.split()        
         cur_dir_str = " ".join(cur_dir)
@@ -41,25 +39,23 @@ for l in lines:
             n2w[cur_file_path_str] = int(p1) 
         p2t[cur_dir_str] += [cur_file_path_str]
 
-
 dirs = [ k for k,v  in n2w.items() if v == 0]
     
 
 part1_res =  []
-def postorderTraversal(root):
-    if not root: return []
-    res, weights =0, list()
-    for node in p2t[root]:
-        weight = postorderTraversal(node)
-        weights += [weight]
-    if weights:
-        res = sum(weights)
-    res += n2w[root]
-    if res <= 100000 and n2w[root] != 0:
-        part1_res.append(res)
-    return res 
-
-
+# too slow with recursion, maximum levels exceeded
+# def postorderTraversal(root):
+#     if not root: return []
+#     res, weights =0, list()
+#     for node in p2t[root]:
+#         weight = postorderTraversal(node)
+#         weights += [weight]
+#     if weights:
+#         res = sum(weights)
+#     res += n2w[root]
+#     if res <= 100000 and n2w[root] != 0:
+#         part1_res.append(res)
+#     return res 
 
 p2t_copy = deepcopy(p2t)
 def postorderTraversal1(root):
@@ -75,7 +71,6 @@ def postorderTraversal1(root):
             for node in p2t[current]:
                 stack.append(node)
             p2t[current] = []
-
 
 ans = postorderTraversal1(".")
 

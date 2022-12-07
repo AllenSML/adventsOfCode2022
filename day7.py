@@ -7,7 +7,6 @@ cur_dir = pathlib.Path(__file__).resolve().parents[0] #.parents[0] #direcotry of
 file_name ="/input7.txt"
 lines = open(str(cur_dir)+file_name).read().split("\n")
 
-
 dir2Content = dict()
 cur_dir, pre_dir, cmd, val, isContent =[],  "",None, None, False
 n2w = defaultdict(int)
@@ -42,23 +41,39 @@ for l in lines:
 dirs = [ k for k,v  in n2w.items() if v == 0]
     
 
-part1_res =  []
+part1_res = []
+part2_res = [float("inf")]
+target = []
 # too slow with recursion, maximum levels exceeded
-# def postorderTraversal(root):
-#     if not root: return []
-#     res, weights =0, list()
-#     for node in p2t[root]:
-#         weight = postorderTraversal(node)
-#         weights += [weight]
-#     if weights:
-#         res = sum(weights)
-#     res += n2w[root]
-#     if res <= 100000 and n2w[root] != 0:
-#         part1_res.append(res)
-#     return res 
+def postorderTraversal(root):
+    if not root: return []
+    res, weights =0, list()
+    for node in p2t[root]:
+        weight = postorderTraversal(node)
+        weights += [weight]
+    if weights:
+        res = sum(weights)
+    res += n2w[root]
+    if res <= 100000 and root in dirs:
+        part1_res.append(res)
+    if target and res >= target[0] and root in dirs:
+        part2_res[0] = (min(part2_res[0], res))
+    return res 
+
+total_size = 70000000
+space_needed = 30000000
+used_size = postorderTraversal(".")
+print("part1: ", sum(part1_res))
+
+space_to_free = space_needed - (total_size - used_size)
+target.append(space_to_free)
+used_size = postorderTraversal(".")
+
+print("part2: ", part2_res[0])
+
 
 p2t_copy = deepcopy(p2t)
-def postorderTraversal1(root):
+def postorderTraversal_iterative(root):
     if not root: return []
     stack = [root]
     while stack:
@@ -66,30 +81,23 @@ def postorderTraversal1(root):
         if not p2t[current]:
             stack.pop()
             for node in p2t_copy[current]:
-                n2w[current] +=  n2w[node]
+                n2w[current] += n2w[node]
         else:
             for node in p2t[current]:
                 stack.append(node)
             p2t[current] = []
 
-ans = postorderTraversal1(".")
+postorderTraversal_iterative(".")
+space_to_free = space_needed - (total_size-n2w["."])
 
 res = 0
 for k,v in n2w.items():
     if v <= 100000 and k in dirs:
         res += v
-
 print("part1: ", res)
-
-total_size = 70000000
-space_needed = 30000000
-space_to_free = space_needed - (total_size-n2w["."])
-
 
 res2 = float("inf")
 for k,v in n2w.items():
     if k in dirs and v >= space_to_free:
         res2 = min(res2, v)
-
-
 print("part2: ", res2)

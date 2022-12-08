@@ -7,7 +7,6 @@ cur_dir = pathlib.Path(__file__).resolve().parents[0] #.parents[0] #direcotry of
 file_name ="/input8.txt"
 input = open(str(cur_dir)+file_name).read().split("\n")
 lines = [[int(c) for c in l] for l in input]
-print(lines)
 
 res = 0
 m, n = len(lines), len(lines[0])
@@ -19,8 +18,8 @@ for x in range(1, m-1):
         right = lines[x][y+1:]
         top = lines_transpose[y][:x]
         bottom = lines_transpose[y][x+1:]
-        res += len(set( (x,y) for line in [left, right, top, bottom] if lines[x][y] > max(line) ))
-        
+        res += [0,1][any((x,y) for line in [left, right, top, bottom] if lines[x][y] > max(line) )]
+
 print("part1: ",res+ m+m+2*(n-2))
 
 res = float("-inf")
@@ -44,4 +43,18 @@ for x in range(1, m-1):
 
 print("part2: ", res)
 
+#using numpy
+m, n = len(lines), len(lines[0])
 
+np_lines = np.array(lines)
+res = 0
+for x in range(1, m-1):
+    for y in range(1, n-1):
+
+        left = np_lines[x,:y][::-1]
+        top = np_lines[:x,y][::-1]
+        right = np_lines[x,y+1:]
+        bottom = np_lines[x+1:,y]
+        res += [0,1][any((x,y) for line in [left, right, top, bottom] if lines[x][y] > max(line) )]
+
+print("part1: ",res+ m+m+2*(n-2))

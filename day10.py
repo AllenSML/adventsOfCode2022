@@ -25,15 +25,11 @@ for line in lines:
         r2x[round+2] = X
         round += 2
         X += val
-
 res = 0 
 for i in range(20,round+1,40):
-    if i >= 20 and i %20 == 0:
-        print("round:", i)
         res += i*r2x[i]
 
 print("part1:", res)
-
 
 r2x[0] = 1
 round = 1

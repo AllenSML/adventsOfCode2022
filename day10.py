@@ -17,11 +17,9 @@ for line in lines:
         val = int(val)
     elif len(parts) == 1:
         op = parts[0]
-        val == 0    
     if op == "noop":    
         round += 1
         r2x[round] = X
-        
     elif op == "addx":
         r2x[round+1] = X
         r2x[round+2] = X
@@ -32,23 +30,20 @@ res = 0
 for i in range(20,round+1,40):
     if i >= 20 and i %20 == 0:
         print("round:", i)
-        print(r2x[i],)
         res += i*r2x[i]
 
 print("part1:", res)
 
 
 r2x[0] = 1
+round = 1
 for row in range(6):
     image = ""
     for id in range(40):        
-        cycle_id = (id + 1)+(row*40)
-        temp = list("."*40)
-        if id == 0:
-            image += '#'
-        elif r2x[cycle_id]-1 <= id <= r2x[cycle_id]+1:
+        if r2x[round]-1 <= id <= r2x[round]+1:
             image += '#'
         else:
             image += ' '
+        round += 1
         id += 1
     print(image)

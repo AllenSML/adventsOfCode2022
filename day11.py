@@ -21,7 +21,6 @@ for id, input  in enumerate(inputs):
             m2i[id].extend([int(num) for num in re.findall(r'\d+', line)])
         elif index == 1:
             m2o[id] = line.split("=")[-1].strip()
-            # print(m2o)
         elif index == 2:
             m2d[id] = int(line.split()[-1])
         else:

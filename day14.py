@@ -23,7 +23,6 @@ print("max_y", max_x)
 def prepare_grid():
     global lines
     global grid
-
     for line in lines:
         cordinates = [list(map(int,pair.split(",")[::-1])) for pair in line.split(" -> ")]
         for i  in range(len(cordinates)-1):
@@ -60,8 +59,6 @@ def prepare_data_part1():
     grid[0][500] = 9
     prepare_grid()
 
-
-
 def get_neighbours(i,j):
     neighbours = [         
         (i+1,j),
@@ -70,12 +67,8 @@ def get_neighbours(i,j):
         ]
     return [(r, c) for r,c in neighbours]# if 0 <= c < n and 0 <= r <m]
 
-
-
-
 def dfs(position):
     x,y = position
-    # print("x,y", x,y)
     rest = True
     falling_forever = False
     for cx,cy in get_neighbours(*position):
@@ -84,14 +77,10 @@ def dfs(position):
         if grid[cx][cy]== 1 or grid[cx][cy]== 2: continue
         falling_forever = dfs((cx,cy))
         rest = False
-        
         break    
     if rest:
         grid[x][y] = 2
     return falling_forever
-    
-
-
 
 def part1(): 
     prepare_data_part1()
@@ -103,7 +92,6 @@ def part1():
             break
         falling_forever = dfs(sand)
         round += 1
-
     print("part1: ", "falling_forever",falling_forever, "round: ", round-1)
 
 def part2(): 
@@ -116,7 +104,6 @@ def part2():
             break
         falling_forever = dfs(sand)
         round += 1
-
     print("part2: ", "falling_forever",falling_forever, "round: ", round)
 
 part1()

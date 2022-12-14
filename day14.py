@@ -6,12 +6,12 @@ from copy import deepcopy
 cur_dir = pathlib.Path(__file__).resolve().parents[0] #.parents[0] #direcotry of the script being run
 file_name ="/input14.txt"
 lines = open(str(cur_dir)+file_name).read().split("\n")
+all_cordinates = [ [list(map(int,pair.split(",")[::-1])) for pair in line.split(" -> ")] for line in lines]
 
 max_x, max_y = float("-inf"), float("-inf")
 grid = None
 
-for line in lines:
-    cordinates = [list(map(int,pair.split(",")[::-1])) for pair in line.split(" -> ")]
+for cordinates in all_cordinates:
     for x, y in cordinates:
         max_x = max(max_x,x)
         max_y = max(max_y,y)
@@ -21,12 +21,8 @@ print("max_y", max_y)
 print("max_y", max_x)
 
 def prepare_grid():
-    global lines
-    global grid
-    for line in lines:
-        cordinates = [list(map(int,pair.split(",")[::-1])) for pair in line.split(" -> ")]
+    for cordinates in all_cordinates:
         for i  in range(len(cordinates)-1):
-            print(cordinates[i], cordinates[i+1])
             x,y = cordinates[i]
             x_, y_ = cordinates[i+1]
             cy = abs(y-y_)
@@ -88,20 +84,15 @@ def part1():
     sand = (0,500)
     round = 0
     while not falling_forever:
-        if grid[0][500] != 9:
-            break
         falling_forever = dfs(sand)
         round += 1
     print("part1: ", "falling_forever",falling_forever, "round: ", round-1)
 
 def part2(): 
-    prepare_data_part2()
-    falling_forever = False
+    prepare_data_part2()    
     sand = (0,500)
     round = 0
-    while not falling_forever:
-        if grid[0][500] != 9:
-            break
+    while grid[0][500] == 9:
         falling_forever = dfs(sand)
         round += 1
     print("part2: ", "falling_forever",falling_forever, "round: ", round)

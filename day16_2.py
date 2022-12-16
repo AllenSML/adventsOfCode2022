@@ -9,7 +9,7 @@ lines = open(str(cur_dir)+file_name).read().split("\n")
 
 
 G = nx.DiGraph()
-startL = "AA"     
+ 
 label2rate = dict()
 
 for line in lines:
@@ -27,26 +27,41 @@ for l in valid_node:
         if l !=  ll:
             ftDist[(l,ll)] = len(nx.shortest_path(G, source=l, target=ll)) 
 
-res = float("-inf")
-def dijkstra( start):
-    global res
-    round = 0
-    heap = [(label2rate[start], 0 , set(), start)]
+startL = "AA"    
+level = 0
+round =  0
+visited = dict()
+def dijkstra(start, seen):
+    global startL
+    global level
+    global round
+    res = float("-inf")
+    heap = [(label2rate[start], 0 , seen, start)]
+    level += 1
     while heap:
-        pressure, dist, seen, label  = heapq.heappop(heap)
         round += 1
-        if label in seen:
-            continue       
+        pressure, dist, seen, label = heapq.heappop(heap)
         seen.add(label)        
-        if dist > 30:
-            continue 
-        pressure = pressure + (label2rate[label] * (30-dist))
-        res = max(res, pressure)
-        
+        pressure = pressure + (label2rate[label] * (26-dist))
+        terminate = True
+        if level < 2:
+            ans = 0
+            if str(seen) not in visited:
+                ans = dijkstra(startL, set(seen))                
+                visited[str(seen)] = ans
+            res = max(res, pressure+visited[str(seen)])
         for l in valid_node:            
             if l in seen: continue
             curDist = ftDist[(label,l)]
-            heapq.heappush(heap, (pressure, dist+curDist, set(seen), l))
+            if dist+curDist <= 26:
+                terminate = False                
+                heapq.heappush(heap, (pressure, dist+curDist, set(seen), l))
+        if terminate:            
+            res = max(pressure, res)
+        if level == 1 and  level % 10000000 == 5:
+            print(round, res)
+    level -= 1
+    return res
 
-dijkstra(startL)
-print("par1",res)
+res = dijkstra(startL, set())
+print("par2",res)

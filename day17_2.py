@@ -35,10 +35,10 @@ surfaces = dict()
 round2Surface =  dict()
 
 def calculate_res():
-    round = 1000000000000
+    T = 1000000000000
     height_increase = round2Surface[N-1][1] - round2Surface[M-1][1]
-    times = (round-M) // (N-M) 
-    mod = (round-M) % (N-M) + M
+    times, mod = divmod(T-M, N-M)
+    mod += M
     res = round2Surface[mod][1] + times*height_increase
     print(res)
     exit()

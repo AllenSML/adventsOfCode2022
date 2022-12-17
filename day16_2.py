@@ -9,7 +9,6 @@ lines = open(str(cur_dir)+file_name).read().split("\n")
 
 
 G = nx.DiGraph()
- 
 label2rate = dict()
 
 for line in lines:
@@ -29,7 +28,7 @@ for l in valid_node:
 
 startL = "AA"    
 level = 0
-round =  0
+round = 0
 visited = dict()
 def dijkstra(start, seen):
     global startL

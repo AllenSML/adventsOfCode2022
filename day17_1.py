@@ -26,14 +26,6 @@ for shape in shapes:
                 shapeCordSet.append((x,y))
     shapeCords_all.append(shapeCordSet)
 
-def draw_grid(rest_rocks):
-    grid = [["." for __ in range(8)] for _ in range(20)]
-    print(shapeCords)
-    for x, y in rest_rocks:
-        grid[x][y] = "#"
-    for g in grid[::-1]:
-        print("".join(g))
-
 def move_shape(shapeCords, direction=""):
     if direction == ">":
         shapeCords = [[x, y+1]  for (x,y) in shapeCords]

@@ -3,6 +3,9 @@ from itertools import permutations, combinations, chain, cycle, repeat, product
 from collections import defaultdict, Counter, deque, ChainMap
 from copy import deepcopy
 
+#There is no mathmatical proof of this solution, just check repeatition 
+#based on the surface + new piece fallowing + next shifts(single shifts does not work)
+
 cur_dir = pathlib.Path(__file__).resolve().parents[0] #.parents[0] #direcotry of the script being run
 file_name ="/input17.txt"
 parts = open(str(cur_dir)+file_name).read().split("\n\n")

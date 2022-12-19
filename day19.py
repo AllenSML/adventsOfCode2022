@@ -24,8 +24,8 @@ for line in lines:
         bluePrint.append(formular)        
     stock = [0,0,0,0]        
     robots = [1,0,0,0]
-    time = 32
-    data.append((stock, robots, time, bluePrint, robotlimit))
+    time = 24
+    data.append([stock, robots, time, bluePrint, robotlimit])
 
 def dfs(stock, robots, time , bluePrint, robotlimit):
     
@@ -77,6 +77,7 @@ print("part1: ",res)
 
 res = 1
 for i, d in enumerate(data[:3]):
+    d[2] = 32
     mem.clear()
     ans = dfs(*d)
     res *= ans

@@ -36,7 +36,7 @@ def dfs(stock, robots, time , bluePrint, robotlimit):
     tried = set()
     res =  stock[3]  + robots[3]*time 
     while repeat:
-        if time <= 0 or len(tried): 
+        if time <= 0 or len(tried)==4: 
             break
         time -= 1
         for i in range(4):

@@ -8,7 +8,6 @@ file_name ="/input19.txt"
 lines = open(str(cur_dir)+file_name).read().split("\n")
 
 robot2index = {"ore":0,"clay": 1, "obsidian": 2,"geode":3}
-index2robot = dict((v,k) for k,v in robot2index.items())
 mem = dict()
 data = list()
 

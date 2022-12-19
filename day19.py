@@ -17,7 +17,6 @@ for line in lines:
     bluePrint = list()
     for part in map(lambda input: input.strip(),line.strip(".").split(": ")[1].split(".")):                
         formular = list()
-        print(part)
         for x, y in re.findall(r'(\d+) (\w+)', part):            
             x = int(x)
             formular.append((x,robot2index[y]))            

@@ -23,12 +23,10 @@ for line in lines:
             robotlimit[robot2index[y]] = max(robotlimit[robot2index[y]],x)
         bluePrint.append(formular)        
     stock = [0,0,0,0]        
-    robots = [1,0,0,0]
-    time = 24
-    data.append([stock, robots, time, bluePrint, robotlimit])
+    robots = [1,0,0,0]    
+    data.append([stock, robots, 24, bluePrint, robotlimit])
 
 def dfs(stock, robots, time , bluePrint, robotlimit):
-    
     if time <= 0:
         return stock[3]
     key = (time, *stock, *robots)
@@ -82,5 +80,3 @@ for d in data[:3]:
     ans = dfs(*d)
     res *= ans
 print("part2: ", res)
-
-

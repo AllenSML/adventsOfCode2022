@@ -33,7 +33,7 @@ def dfs(stock, robots, time , bluePrint, robotlimit):
         return mem[key]        
     repeat = True
     tried = set()
-    res =  stock[3]  + robots[3]*time 
+    res =  stock[3] + robots[3]*time 
     while repeat:
         if time <= 0 or len(tried)==4: 
             break
@@ -59,8 +59,8 @@ def dfs(stock, robots, time , bluePrint, robotlimit):
                     robots_new[i] += 1            
                     stock_new = [ s + r for s, r in  zip(stock_new, robots)]            
                     for j in range(3):
-                        stock_new[j] =  min(stock_new[j], robotlimit[j] * time) 
-                    res =max(res, dfs(stock_new, robots_new, time, bluePrint, robotlimit))        
+                        stock_new[j] = min(stock_new[j], robotlimit[j] * time) 
+                    res = max(res, dfs(stock_new, robots_new, time, bluePrint, robotlimit))        
         stock = [ s + r for s, r in zip(stock, robots)]
     mem[key] = res
     return res

@@ -76,7 +76,7 @@ for i, d in enumerate(data):
 print("part1: ",res)
 
 res = 1
-for i, d in enumerate(data[:3]):
+for d in data[:3]:
     d[2] = 32
     mem.clear()
     ans = dfs(*d)

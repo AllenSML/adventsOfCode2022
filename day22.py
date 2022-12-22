@@ -12,8 +12,6 @@ path = input.splitlines()[-1]
 tiles = dict()
 colRange = defaultdict(list)
 rowRange = defaultdict(list)
-colBoundary = dict()
-rowBoundary = dict()
 
 for r, line in enumerate(lines):    
     for c, tile in enumerate(line):
@@ -24,11 +22,9 @@ for r, line in enumerate(lines):
         
 rowBoundary = dict( (id, (min(v), max(v))) for id, v in rowRange.items())
 colBoundary = dict((id, (min(v), max(v)))  for id, v in colRange.items())
-
-
 directions = deque("ESWN")
-di2Score = dict(zip("ESWN",[0,1,2,3]))
-di2move = dict(zip("ESWN", ((0,1),(1,0),(0,-1),(-1,0))))
+di2Score = dict(zip(directions,[0,1,2,3]))
+di2move = dict(zip(directions, ((0,1),(1,0),(0,-1),(-1,0))))
 
 
 def move(pos, steps, direction):
@@ -52,28 +48,19 @@ def move(pos, steps, direction):
 
 direction = directions[0]
 pos = (0, rowBoundary[0][0])
-step = None
+step = ""
 
 for i, c in enumerate(path):
     if c.isdigit():        
-        step = step if step else ""
         step += c
-    else:
-        if step:
-            print(pos, int(step), direction)
-            pos = move(pos, int(step),direction)
-            step = None        
-        if c == "R":
-            directions.rotate(-1)
-            direction = directions[0]
-        elif c == "L":
-            directions.rotate(1)
-            direction = directions[0]            
+    else:        
+        pos = move(pos, int(step),direction)
+        step = ""        
+        directions.rotate([1,-1][c == "R"])
+        direction = directions[0]            
 else: 
     if c.isdigit():
-        print(pos, int(step), direction)
         pos = move(pos, int(step),direction)
-
 
 r, c = pos
 res = 1000*(r+1) + 4*(c+1) +di2Score[direction]

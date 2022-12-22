@@ -34,7 +34,7 @@ def dfs(monkey):
     return ans
 
 res = dfs(root)
-print("part1: ",res)
+print("part1: ",int(res))
 
 numMonkeys[humn] = None
 
@@ -44,7 +44,6 @@ def dfs_1(monkey):
         return None
     if monkey in numMonkeys:
         return numMonkeys[monkey]
-    assert monkey in mathMonkeys
     mon1, mon2, op = mathMonkeys[monkey]
     res1 = dfs_1(mon1)
     res2 = dfs_1(mon2)
@@ -59,7 +58,6 @@ mon1, mon2, op = mathMonkeys[root]
 numMonkeys[root] = 2* numMonkeys[mon1] if mon1 in numMonkeys else 2*numMonkeys[mon2]
 
 def dfs_2(monkey):    
-    global res 
     if monkey == humn:        
         return 
     mon1, mon2, op = mathMonkeys[monkey]
@@ -74,4 +72,4 @@ def dfs_2(monkey):
         dfs_2(mon1)
 
 dfs_2(root)
-print("part2: ", numMonkeys[humn])
+print("part2: ", int(numMonkeys[humn]))

@@ -10,22 +10,21 @@ lines = input.splitlines()[:-2]
 path = input.splitlines()[-1]
 
 tiles = dict()
-colRange = defaultdict(list)
-rowRange = defaultdict(list)
+rowBoundary = defaultdict(lambda : [float("inf"), float("-inf")])
+colBoundary = defaultdict(lambda : [float("inf"), float("-inf")])
+
+directions = deque("ESWN")
+di2Score = dict(zip(directions,[0,1,2,3]))
+di2move = dict(zip(directions, ((0,1),(1,0),(0,-1),(-1,0))))
 
 for r, line in enumerate(lines):    
     for c, tile in enumerate(line):
         if tile != " ":
             tiles[(r,c)] = True if tile == "." else False
-            colRange[c].append(r)
-            rowRange[r].append(c)
-        
-rowBoundary = dict( (id, (min(v), max(v))) for id, v in rowRange.items())
-colBoundary = dict((id, (min(v), max(v)))  for id, v in colRange.items())
-directions = deque("ESWN")
-di2Score = dict(zip(directions,[0,1,2,3]))
-di2move = dict(zip(directions, ((0,1),(1,0),(0,-1),(-1,0))))
-
+            rowBoundary[r][0] = min(rowBoundary[r][0], c)
+            rowBoundary[r][1] = max(rowBoundary[r][1], c)
+            colBoundary[c][0] = min(colBoundary[c][0], r)
+            colBoundary[c][1] = max(colBoundary[c][1], r)
 
 def move(pos, steps, direction):
     for _ in range(steps):
@@ -45,8 +44,6 @@ def move(pos, steps, direction):
         pos = nextPos
     return pos
 
-
-direction = directions[0]
 pos = (0, rowBoundary[0][0])
 step = ""
 
@@ -54,16 +51,14 @@ for i, c in enumerate(path):
     if c.isdigit():        
         step += c
     else:        
-        pos = move(pos, int(step),direction)
+        pos = move(pos, int(step),directions[0])
         step = ""        
         directions.rotate([1,-1][c == "R"])
-        direction = directions[0]            
 else: 
     if c.isdigit():
-        pos = move(pos, int(step),direction)
+        pos = move(pos, int(step),directions[0])
 
-r, c = pos
-res = 1000*(r+1) + 4*(c+1) +di2Score[direction]
+res = 1000*(pos[0]+1) + 4*(pos[1]+1) +di2Score[directions[0]]
 print(res)
 
 
